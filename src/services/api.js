@@ -35,4 +35,4 @@ class ApiService {
 	};
 }
 
-export const apiService = new ApiService('http://api.openweathermap.org/data/2.5', 'd838706376fb2260023051be6c319ef7');
+export const apiService = new ApiService('https://api.openweathermap.org/data/2.5', 'd838706376fb2260023051be6c319ef7');
