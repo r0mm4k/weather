@@ -8,10 +8,10 @@ const App = () => {
 	let [appFontSize, setAppFontSize] = useState(1);
 
 	const incFont = () => {
-		setAppFontSize(++appFontSize);
+		setAppFontSize(appFontSize+=0.25);
 	};
 	const decFont = () => {
-		if (appFontSize > 1) setAppFontSize(--appFontSize);
+		if (appFontSize > 1) setAppFontSize(appFontSize-=0.25);
 	};
 
 	return (
