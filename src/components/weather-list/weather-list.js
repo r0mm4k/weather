@@ -14,7 +14,7 @@ const WeatherItem = ({weather}) => {
 				<h2 className='card-text temp'>
 					{temp}&deg;
 				</h2>
-				<p className='text-center mt-4'>
+				<p className='text-center mt-4 block-info'>
 					<span className='p-3 info'>Wind: {speed} (m/s)</span>
 					<span className='p-3 info'>Pressure: {pressure} (hPa)</span>
 				</p>

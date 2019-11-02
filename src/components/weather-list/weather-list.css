@@ -87,6 +87,8 @@
 @media (max-width: 395px) {
 	.card .info {
 		display: block;
+	}
+	.card .block-info {
 		margin-bottom: -.2rem;
 	}
 }
