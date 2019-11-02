@@ -6,8 +6,8 @@ class ApiService {
 		this._initialAPI = axios.create({baseURL: BASE_URL});
 	}
 
-	_imgURL = 'http://openweathermap.org/img/wn';
-	_flagURL = 'https://openweathermap.org/images/flags';
+	_imgURL = 'https://openweathermap.org';
+	_mapURL = 'https://www.google.com/maps/@?api=1&map_action=map&zoom=10';
 
 	_getResource = async (endpoint) => {
 		const res = await this._initialAPI.get(endpoint);
@@ -17,7 +17,14 @@ class ApiService {
 	getWeather = async (city) => {
 		const res = await this._getResource(`/find?q=${city}&units=metric&appid=${this._apiKey}`);
 		if (!res.count) throw new Error('Not found! Try again!');
-		return res.list.map((item) => this._transformWeather(item));
+		return res.list
+			.reduce((acc, item) => { //del dublicate api
+				if (acc.some((el) => el.sys.country === item.sys.country)) {
+					return acc;
+				}
+				return [...acc, item]
+			}, [])
+			.map((item) => this._transformWeather(item)); //transform object weather
 	};
 
 	_transformWeather = (item) => {
@@ -30,9 +37,10 @@ class ApiService {
 			pressure: item.main.pressure,
 			speed: item.wind.speed,
 			clouds: item.clouds.all,
+			map: `${this._mapURL}&center=${item.coord.lat},${item.coord.lon}`,
 			description: item.weather[0].description,
-			img: `${this._imgURL}/${item.weather[0].icon}@2x.png`,
-			flag: `${this._flagURL}/${item.sys.country.toLowerCase()}.png`,
+			img: `${this._imgURL}/img/wn/${item.weather[0].icon}@2x.png`,
+			flag: `${this._imgURL}/images/flags/${item.sys.country.toLowerCase()}.png`,
 			time: new Date().toLocaleDateString() + ' - ' + new Date().toLocaleTimeString()
 		};
 	};

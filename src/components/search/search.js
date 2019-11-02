@@ -1,7 +1,6 @@
 import React from 'react';
-import { search } from '../../utils/search-item';
 
-const Search = ({searchData = '', changeSearchData, submitForm, searchHistory = [], loading = false}) => {
+const Search = ({searchData = '', changeSearchData, submitForm, searchHistory = [], loading}) => {
 
 	const onChangeValue = ({target: {value}}) => {
 		changeSearchData(value);
@@ -17,7 +16,7 @@ const Search = ({searchData = '', changeSearchData, submitForm, searchHistory = 
 	};
 
 	const isDisabledButton = !searchData || loading;
-	const hasHistory = search(searchHistory, searchData).map((city, i) => (
+	const hasHistory = searchHistory.map((city, i) => (
 		<li key={i} className='list-group-item'>
 			<a data-city={city} onClick={onClickHistory} className='text-dark d-block' href='/'>{city}</a>
 		</li>));

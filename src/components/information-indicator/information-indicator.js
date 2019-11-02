@@ -2,16 +2,15 @@ import React from 'react';
 
 const InformationIndicator = () => {
 	return (
-		<div className='alert alert-info'>
+		<div className='alert alert-success'>
 			<div className='text-center font-weight-bold'>Please, enter a city!</div>
 			<ol>
 				<u>How it works:</u>
 				<li>
-					Put the city's name, comma, 2-letter country code (ISO3166).
+					Put only the city's name. Example - London.
 				</li>
 				<li>
-					The order is important - the first is city name then comma then country. Example - London, GB or New York,
-					US.
+					Put the city's name and 2-letter country code (ISO3166). Example - London, GB.
 				</li>
 			</ol>
 		</div>

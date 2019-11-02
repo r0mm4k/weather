@@ -1,4 +1,4 @@
-import { CHANGE_SEARCH_DATA, ADD_WEATHER, ADD_SEARCH_HISTORY, SET_LOADING, SET_ERROR } from './constants';
+import { CHANGE_SEARCH_DATA, ADD_WEATHER, ADD_SEARCH_HISTORY, SET_LOADING, SET_ERROR, CLOSE_WEATHER } from './constants';
 
 import { apiService } from '../services/api';
 
@@ -12,6 +12,7 @@ export const addSearchWeather = (weather) => ({type: ADD_WEATHER, weather});
 export const addSearchHistory = (searchHistory) => ({type: ADD_SEARCH_HISTORY, searchHistory});
 export const setLoading = (status) => ({type: SET_LOADING, status});
 export const setError = (err) => ({type: SET_ERROR, err});
+export const closeWeather = (id) => ({type: CLOSE_WEATHER, id});
 
 //thunk-creators
 export const submitForm = (city) => (dispatch, getState) => {

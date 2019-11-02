@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import * as actions from '../redux/actions';
 
+import {search} from '../utils/search-item';
+
 import Search from '../components/search/search';
 import InformationIndicator from '../components/information-indicator/information-indicator';
 
@@ -21,7 +23,7 @@ const SearchContainer = ({searchData, error, changeSearchData, weathers, submitF
 
 const mapStateToProps = ({searchData, error, searchHistory, loading, weathers}) => ({
 	searchData,
-	searchHistory,
+	searchHistory: search(searchHistory, searchData),
 	weathers,
 	loading,
 	error

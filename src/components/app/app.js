@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import Header from '../header/header';
 import SearchContainer from '../../containers/search-container';
 import WeatherListContainer from '../../containers/weather-list-container';
 
 const App = () => {
+	let [appFontSize, setAppFontSize] = useState(1);
+
+	const incFont = () => {
+		setAppFontSize(++appFontSize);
+	};
+	const decFont = () => {
+		if (appFontSize > 1) setAppFontSize(--appFontSize);
+	};
+
 	return (
-		<div className='container mt-3'>
-			<SearchContainer/>
-			<WeatherListContainer/>
-		</div>);
+		<div style={{fontSize: `${appFontSize}rem`}}>
+			<Header incFont={incFont} decFont={decFont}/>
+			<main className='container mt-3'>
+				<SearchContainer/>
+				<WeatherListContainer/>
+			</main>
+		</div>
+	);
 };
 
 export default App;

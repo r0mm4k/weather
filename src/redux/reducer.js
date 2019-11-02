@@ -1,4 +1,4 @@
-import { CHANGE_SEARCH_DATA, ADD_WEATHER, ADD_SEARCH_HISTORY, SET_LOADING, SET_ERROR} from './constants';
+import { CHANGE_SEARCH_DATA, ADD_WEATHER, ADD_SEARCH_HISTORY, SET_LOADING, SET_ERROR, CLOSE_WEATHER} from './constants';
 import { getSearchHistory } from '../utils/local-history';
 
 const initialState = {
@@ -29,6 +29,11 @@ const reducer = (state = initialState, action) => {
 				loading: false,
 				error: false,
 				weathers: action.weather
+			};
+		case CLOSE_WEATHER:
+			return {
+				...state,
+				weathers: state.weathers.filter(({id})=>id!==action.id)
 			};
 		case SET_LOADING:
 			return {

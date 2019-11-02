@@ -2,12 +2,15 @@ import React from 'react';
 
 import './weather-list.css'
 
-const WeatherItem = ({weather}) => {
-	const {name, country, temp, humidity, pressure, speed, clouds, description, time, img, flag} = weather;
+const WeatherItem = ({weather, onClose}) => {
+	const {name, country, temp, humidity, pressure, speed, clouds, description, time, img, flag, map} = weather;
 	return (
 		<article className='card text-center mb-3'>
 			<div className='card-header font-weight-bold'>
-				{`${name} - ${country}`} <img src={flag} className='flag' alt='flag-country'/>
+				<button type='button' className='close' onClick={onClose} data-dismiss='alert'>×</button>
+				{`${name} - ${country}`}
+				<img src={flag} className='flag ml-1' alt='flag-country'/>
+				<a className='ml-1' target='_blank' rel='noopener noreferrer' href={map}>[map]</a>
 			</div>
 			<div className='card-body'>
 				<h4 className='card-title'><img src={img} className='logo' alt='logo-weather'/></h4>
@@ -31,8 +34,10 @@ const WeatherItem = ({weather}) => {
 	);
 };
 
-const WeatherList = ({weathers}) => {
-	const content = weathers.map(({id, ...weather}) => <WeatherItem key={id} weather={weather}/>);
+const WeatherList = ({weathers, onClose}) => {
+	const content = weathers.map(({id, ...weather}) => <WeatherItem key={id}
+																																	onClose={() => onClose(id)}
+																																	weather={weather}/>);
 	return (
 		<section>
 			{content}
