@@ -80,6 +80,10 @@
 	animation-name: swing;
 }
 
+.card .flag {
+	vertical-align: baseline;
+}
+
 @media (max-width: 395px) {
 	.card .info {
 		display: block;

@@ -3,11 +3,11 @@ import React from 'react';
 import './weather-list.css'
 
 const WeatherItem = ({weather}) => {
-	const {name, country, temp, humidity, pressure, speed, clouds, description, time, img} = weather;
+	const {name, country, temp, humidity, pressure, speed, clouds, description, time, img, flag} = weather;
 	return (
-		<section className='card text-center'>
+		<article className='card text-center mb-3'>
 			<div className='card-header font-weight-bold'>
-				{`${name} - ${country}`}
+				{`${name} - ${country}`} <img src={flag} className='flag' alt='flag-country'/>
 			</div>
 			<div className='card-body'>
 				<h4 className='card-title'><img src={img} className='logo' alt='logo-weather'/></h4>
@@ -27,16 +27,16 @@ const WeatherItem = ({weather}) => {
 			<div className='card-footer text-muted mt-3'>
 				{time}
 			</div>
-		</section>
+		</article>
 	);
 };
 
 const WeatherList = ({weathers}) => {
 	const content = weathers.map(({id, ...weather}) => <WeatherItem key={id} weather={weather}/>);
 	return (
-		<>
+		<section>
 			{content}
-		</>
+		</section>
 	);
 };
 

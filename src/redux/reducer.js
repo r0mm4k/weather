@@ -28,7 +28,7 @@ const reducer = (state = initialState, action) => {
 				searchData: '',
 				loading: false,
 				error: false,
-				weathers: [action.weather]
+				weathers: action.weather
 			};
 		case SET_LOADING:
 			return {

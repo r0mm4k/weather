@@ -5,7 +5,7 @@ import WeatherListContainer from '../../containers/weather-list-container';
 
 const App = () => {
 	return (
-		<div className='container mt-3 mb-3'>
+		<div className='container mt-3'>
 			<SearchContainer/>
 			<WeatherListContainer/>
 		</div>);

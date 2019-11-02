@@ -29,7 +29,15 @@ export const submitForm = (city) => (dispatch, getState) => {
 				}
 			})
 			.catch((err) => {
-				dispatch(setError(`Error: ${err.response.data.message}`));
+				if (err.response) {
+					if (err.response.data.cod === '400') {
+						dispatch(setError('Not found! Try again!'));
+					} else {
+						dispatch(setError(err.response.data.message));
+					}
+				} else {
+					dispatch(setError(err.message));
+				}
 			});
 	}
 };
