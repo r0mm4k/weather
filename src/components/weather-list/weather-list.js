@@ -14,7 +14,7 @@ const WeatherItem = ({weather, onClose}) => {
 			</div>
 			<div className='card-body'>
 				<h4 className='card-title'><img src={img} className='logo' alt='logo-weather'/></h4>
-				<h2 className='card-text temp'>
+				<h2 className='card-text temp ml-4'>
 					{temp}&deg;
 				</h2>
 				<p className='text-center mt-4 block-info'>
