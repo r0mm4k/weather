@@ -1,9 +1,9 @@
 import { CHANGE_SEARCH_DATA, ADD_SEARCH_HISTORY } from '../constants';
-import { getSearchHistory } from '../../utils/local-history';
+import { getLocalData } from '../../utils/local-history';
 
 const initialState = {
 	searchData: '',
-	searchHistory: [...getSearchHistory()]
+	searchHistory: [...getLocalData('searchHistory')]
 };
 
 const searchReducer = (state = initialState, action) => {

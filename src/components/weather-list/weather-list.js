@@ -7,7 +7,7 @@ const WeatherItem = ({weather, onClose}) => {
 	return (
 		<article className='card text-center mb-3'>
 			<div className='card-header font-weight-bold'>
-				<button type='button' className='close' onClick={onClose} data-dismiss='alert'>×</button>
+				<span className='close cursor-pointer' onClick={onClose} data-dismiss='alert'>×</span>
 				{`${name} - ${country}`}
 				<img src={flag} className='flag ml-1' alt='flag-country'/>
 				<a className='ml-1' target='_blank' rel='noopener noreferrer' href={map}>[map]</a>

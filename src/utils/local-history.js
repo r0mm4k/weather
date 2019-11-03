@@ -1,20 +1,20 @@
-const setSearchHistory = (item) => {
-	if (localStorage.searchHistory) {
-		const history = JSON.parse(localStorage.getItem('searchHistory'));
-		localStorage.searchHistory = JSON.stringify([...history, item]);
+const setLocalData = (item, key) => {
+	if (localStorage[key]) {
+		const data = JSON.parse(localStorage.getItem(key));
+		localStorage[key] = JSON.stringify([...data, item]);
 	} else {
-		localStorage.searchHistory = JSON.stringify([item]);
+		localStorage[key] = JSON.stringify([item]);
 	}
 };
 
-const getSearchHistory = () => {
-	if (localStorage.searchHistory) {
-		return JSON.parse(localStorage.getItem('searchHistory')).reverse();
+const getLocalData = (key) => {
+	if (localStorage[key]) {
+		return JSON.parse(localStorage.getItem(key)).reverse();
 	}
 	return [];
 };
 
 export {
-	setSearchHistory,
-	getSearchHistory
+	setLocalData,
+	getLocalData
 };

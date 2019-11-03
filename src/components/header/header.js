@@ -1,19 +1,30 @@
 import React from 'react';
 import logo from './logo.svg'
+import { Link, withRouter } from 'react-router-dom';
 
-const Header = ({decFont, incFont}) => {
+const Header = ({history, location}) => {
+
+	const changeUrl = () => {
+		if (location.pathname === '/settings') {
+			history.push('/');
+		} else {
+			history.push('/settings');
+		}
+	};
+
 	return (
 		<header className='navbar navbar-dark bg-dark pt-0 pb-0'>
-				<a  href='/' className='navbar-brand'>
-					<img src={logo} width={35} className=' mb-2' alt='logo'/>
-					<span className='ml-1'>Weather</span>
-				</a>
+			<Link to='/' className='navbar-brand'>
+				<img src={logo} width={35} className=' mb-2' alt='logo'/>
+				<span className='ml-1'>Weather</span>
+			</Link>
 			<div>
-				<button type="button"  onClick={decFont} className="btn btn-outline-success mr-2">--</button>
-				<button type="button" onClick={incFont} className="btn btn-outline-success">+</button>
+				<button type='button' onClick={changeUrl} className='btn btn-outline-success'>
+					<i className='fas fa-cog'/>
+				</button>
 			</div>
 		</header>
 	);
 };
 
-export default Header;
+export default withRouter(Header);

@@ -1,28 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Header from '../header/header';
-import SearchContainer from '../../containers/search-container';
-import WeatherListContainer from '../../containers/weather-list-container';
+import SettingsPage from '../../pages/settingsPage';
+import MainPage from '../../pages/mainPage';
 
-const App = () => {
-	let [appFontSize, setAppFontSize] = useState(1);
-
-	const incFont = () => {
-		setAppFontSize(appFontSize += 0.25);
-	};
-	const decFont = () => {
-		if (appFontSize > 1) setAppFontSize(appFontSize -= 0.25);
-	};
-
+const App = ({zoom}) => {
 	return (
-		<div style={{fontSize: `${appFontSize}rem`}}>
-			<Header incFont={incFont} decFont={decFont}/>
-			<main className='container mt-3'>
-				<SearchContainer/>
-				<WeatherListContainer/>
-			</main>
+		<div style={{fontSize: `${zoom}rem`}}>
+			<Header/>
+			<Switch>
+				<Route path='/' exact component={MainPage}/>
+				<Route path='/settings' component={SettingsPage}/>
+				<Route render={() => <Redirect to='/'/>}/>
+			</Switch>
 		</div>
 	);
 };
 
-export default App;
+const mapStateToProps = ({settings: {zoom}}) => ({zoom});
+
+export default connect(mapStateToProps)(App);
