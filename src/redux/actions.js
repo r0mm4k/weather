@@ -32,56 +32,39 @@ export const submitForm = (city) => (dispatch, getState) => {
 
 		const {settings: {markFunc}, searchData: {searchHistory}} = getState();
 
-		if (markFunc) {
-			apiService.getWeather(fuzzySearch(normCity, searchHistory))
-				.then((weather) => {
-					dispatch(addSearchWeather(weather));
-					dispatch(setLoading(false));
-					const {searchData: {searchHistory}} = getState();
-					const hasDublicate = searchDublicate(fuzzySearch(normCity, searchHistory), searchHistory);
-					if (!hasDublicate) {
-						setLocalData(normCity, 'searchHistory');
-						dispatch(addSearchHistory([normCity]));
-					}
-				})
-				.catch((err) => {
-					if (err.response) {
-						if (err.response.data.cod === '400') {
-							dispatch(setError('Not found! Try again!'));
-						} else {
-							dispatch(setError(err.response.data.message));
-						}
-					} else {
-						dispatch(setError(err.message));
-					}
+		const thenCallback = (weather, city, fuzzy) => {
+			dispatch(addSearchWeather(weather));
+			dispatch(setLoading(false));
+			const {searchData: {searchHistory}} = getState();
+			const hasDublicate = searchDublicate(fuzzy || city, searchHistory);
+			if (!hasDublicate) {
+				setLocalData(city, 'searchHistory');
+				dispatch(addSearchHistory([city]));
+			}
+		};
+		const catchCallback = (err) => {
+			if (err.response) {
+				if (err.response.data.cod === '400') {
+					dispatch(setError('Not found! Try again!'));
+				} else {
+					dispatch(setError(err.response.data.message));
+				}
+			} else {
+				dispatch(setError(err.message));
+			}
 
-					dispatch(addSearchWeather([]));
-				});
+			dispatch(addSearchWeather([]));
+		};
+
+		if (markFunc) {
+			const hasFuzzyCity = fuzzySearch(normCity, searchHistory);
+			apiService.getWeather(hasFuzzyCity)
+				.then((weather) => thenCallback(weather, normCity, hasFuzzyCity))
+				.catch((err) => catchCallback(err));
 		} else {
 			apiService.getWeather(normCity)
-				.then((weather) => {
-					dispatch(addSearchWeather(weather));
-					dispatch(setLoading(false));
-					const {searchData: {searchHistory}} = getState();
-					const hasDublicate = searchDublicate(normCity, searchHistory);
-					if (!hasDublicate) {
-						setLocalData(normCity, 'searchHistory');
-						dispatch(addSearchHistory([normCity]));
-					}
-				})
-				.catch((err) => {
-					if (err.response) {
-						if (err.response.data.cod === '400') {
-							dispatch(setError('Not found! Try again!'));
-						} else {
-							dispatch(setError(err.response.data.message));
-						}
-					} else {
-						dispatch(setError(err.message));
-					}
-
-					dispatch(addSearchWeather([]));
-				});
+				.then((weather) => thenCallback(weather, normCity))
+				.catch((err) => catchCallback(err));
 		}
 	}
 

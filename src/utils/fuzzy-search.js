@@ -10,5 +10,5 @@ const fuzzyString = (mistake, term, ratio) => {
 };
 
 export const fuzzySearch = (text, arr) => {
-	return arr.find((el) => fuzzyString(el, text, 0.60)) || text;
+	return arr.find((el) => fuzzyString(el, text, 0.70)) || text;
 };
