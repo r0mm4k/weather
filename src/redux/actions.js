@@ -1,4 +1,11 @@
-import { CHANGE_SEARCH_DATA, ADD_WEATHER, ADD_SEARCH_HISTORY, SET_LOADING, SET_ERROR, CLOSE_WEATHER } from './constants';
+import {
+	CHANGE_SEARCH_DATA,
+	ADD_WEATHER,
+	ADD_SEARCH_HISTORY,
+	SET_LOADING,
+	SET_ERROR,
+	CLOSE_WEATHER
+} from './constants';
 
 import { apiService } from '../services/api';
 
@@ -7,7 +14,7 @@ import { searchDublicate } from '../utils/search-dublicate';
 import { normalizeCity } from '../utils/normalize-city';
 
 //action-creators
-export const changeSearchData = (searchData) => ({type: CHANGE_SEARCH_DATA, searchData});
+export const onSearchData = (searchData) => ({type: CHANGE_SEARCH_DATA, searchData});
 export const addSearchWeather = (weather) => ({type: ADD_WEATHER, weather});
 export const addSearchHistory = (searchHistory) => ({type: ADD_SEARCH_HISTORY, searchHistory});
 export const setLoading = (status) => ({type: SET_LOADING, status});
@@ -20,10 +27,12 @@ export const submitForm = (city) => (dispatch, getState) => {
 
 	if (normCity) {
 		dispatch(setLoading(true));
+		dispatch(onSearchData(''));
 		apiService.getWeather(normCity)
 			.then((weather) => {
 				dispatch(addSearchWeather(weather));
-				const hasDublicate = searchDublicate(normCity, getState().searchHistory);
+				dispatch(setLoading(false));
+				const hasDublicate = searchDublicate(normCity, getState().searchData.searchHistory);
 				if (!hasDublicate) {
 					setSearchHistory(normCity);
 					dispatch(addSearchHistory([normCity]));
@@ -41,4 +50,10 @@ export const submitForm = (city) => (dispatch, getState) => {
 				}
 			});
 	}
+
+};
+
+export const changeSearchData = (searchData) => (dispatch) => {
+	dispatch(setError(false));
+	dispatch(onSearchData(searchData))
 };

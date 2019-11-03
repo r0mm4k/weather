@@ -9,7 +9,6 @@ import ErrorIndicator from '../components/error-indicator/error-indicator';
 
 const WeatherListContainer = ({weathers, loading, error, closeWeather}) => {
 	const hasData = !(loading || error);
-
 	const errorMessage = error ? <ErrorIndicator error={error}/> : null;
 	const spinner = loading ? <Spinner/> : null;
 	const content = hasData ? <WeatherList weathers={weathers} onClose={closeWeather}/> : null;
@@ -23,6 +22,10 @@ const WeatherListContainer = ({weathers, loading, error, closeWeather}) => {
 	);
 };
 
-const mapStateToProps = ({weathers, loading, error}) => ({weathers, loading, error});
+const mapStateToProps = ({weathers, status}) => ({
+	weathers,
+	loading:status.loading,
+	error: status.error
+});
 
 export default connect(mapStateToProps, action)(WeatherListContainer);

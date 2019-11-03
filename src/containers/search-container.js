@@ -21,12 +21,12 @@ const SearchContainer = ({searchData, error, changeSearchData, weathers, submitF
 	);
 };
 
-const mapStateToProps = ({searchData, error, searchHistory, loading, weathers}) => ({
-	searchData,
-	searchHistory: search(searchHistory, searchData),
+const mapStateToProps = ({searchData, status, weathers}) => ({
+	searchData: searchData.searchData,
+	searchHistory: search(searchData.searchHistory, searchData.searchData),
 	weathers,
-	loading,
-	error
+	loading: status.loading,
+	error: status.error
 });
 
 export default connect(mapStateToProps, actions)(SearchContainer);
