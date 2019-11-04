@@ -1,6 +1,8 @@
 import React from 'react';
-import logo from './logo.svg'
 import { Link, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+import logo from './logo.svg'
 
 const Header = ({history, location}) => {
 
@@ -28,3 +30,8 @@ const Header = ({history, location}) => {
 };
 
 export default withRouter(Header);
+
+Header.propTypes = {
+	history: PropTypes.object,
+	location: PropTypes.object
+};

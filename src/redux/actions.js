@@ -9,6 +9,7 @@ import { setLocalData } from '../utils/local-history';
 import { searchDublicate } from '../utils/search-dublicate';
 import { normalizeCity } from '../utils/normalize-city';
 import { fuzzySearch } from '../utils/fuzzy-search';
+import network from '../utils/neural/neural';
 
 //action-creators
 export const onSearchData = (searchData) => ({type: CHANGE_SEARCH_DATA, searchData});
@@ -19,8 +20,8 @@ export const setError = (err) => ({type: SET_ERROR, err});
 export const closeWeather = (id) => ({type: CLOSE_WEATHER, id});
 export const addZoom = () => ({type: ADD_ZOOM});
 export const outZoom = () => ({type: OUT_ZOOM});
-export const setMarkFunc = () => ({type: SET_MARK_FUNC});
-export const setMarkNeuron = () => ({type: SET_MARK_NEURON});
+export const setMarkFunc = (status) => ({type: SET_MARK_FUNC, status});
+export const setMarkNeuron = (status) => ({type: SET_MARK_NEURON, status});
 
 //thunk-creators
 export const submitForm = (city) => (dispatch, getState) => {
@@ -30,7 +31,7 @@ export const submitForm = (city) => (dispatch, getState) => {
 		dispatch(setLoading(true));
 		dispatch(onSearchData(''));
 
-		const {settings: {markFunc}, searchData: {searchHistory}} = getState();
+		const {settings: {markFunc, markNeuron}, searchData: {searchHistory}} = getState();
 
 		const thenCallback = (weather, city, fuzzy) => {
 			dispatch(addSearchWeather(weather));
@@ -38,8 +39,8 @@ export const submitForm = (city) => (dispatch, getState) => {
 			const {searchData: {searchHistory}} = getState();
 			const hasDublicate = searchDublicate(fuzzy || city, searchHistory);
 			if (!hasDublicate) {
-				setLocalData(city, 'searchHistory');
-				dispatch(addSearchHistory([city]));
+				setLocalData(fuzzy || city, 'searchHistory');
+				dispatch(addSearchHistory([fuzzy || city]));
 			}
 		};
 		const catchCallback = (err) => {
@@ -61,6 +62,15 @@ export const submitForm = (city) => (dispatch, getState) => {
 			apiService.getWeather(hasFuzzyCity)
 				.then((weather) => thenCallback(weather, normCity, hasFuzzyCity))
 				.catch((err) => catchCallback(err));
+		} else if (markNeuron) {
+			const hasNetworkCity = network.run(normCity) || normCity;
+			apiService.getWeather(hasNetworkCity)
+				.then((weather) => thenCallback(weather, normCity, hasNetworkCity))
+				.catch(() => {
+					apiService.getWeather(normCity)
+						.then((weather) => thenCallback(weather, normCity))
+						.catch((err) => catchCallback(err));
+				});
 		} else {
 			apiService.getWeather(normCity)
 				.then((weather) => thenCallback(weather, normCity))

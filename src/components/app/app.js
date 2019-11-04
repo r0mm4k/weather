@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Header from '../header/header';
 import SettingsPage from '../../pages/settingsPage';
@@ -22,3 +23,7 @@ const App = ({zoom}) => {
 const mapStateToProps = ({settings: {zoom}}) => ({zoom});
 
 export default connect(mapStateToProps)(App);
+
+App.propTypes = {
+	zoom: PropTypes.number
+};

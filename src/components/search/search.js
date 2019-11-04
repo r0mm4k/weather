@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Search = ({searchData = '', changeSearchData, submitForm, searchHistory = [], loading}) => {
 
@@ -40,3 +41,11 @@ const Search = ({searchData = '', changeSearchData, submitForm, searchHistory = 
 };
 
 export default Search;
+
+Search.propTypes = {
+	searchData: PropTypes.string,
+	changeSearchData: PropTypes.func,
+	submitForm: PropTypes.func,
+	searchHistory: PropTypes.arrayOf(PropTypes.string),
+	loading: PropTypes.bool
+};

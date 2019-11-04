@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import * as action from '../redux/actions';
 
@@ -24,8 +25,14 @@ const WeatherListContainer = ({weathers, loading, error, closeWeather}) => {
 
 const mapStateToProps = ({weathers, status}) => ({
 	weathers,
-	loading:status.loading,
+	loading: status.loading,
 	error: status.error
 });
 
 export default connect(mapStateToProps, action)(WeatherListContainer);
+
+WeatherListContainer.propTypes = {
+	weathers: PropTypes.arrayOf(PropTypes.object),
+	closeWeather: PropTypes.func,
+	loading: PropTypes.bool,
+};

@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import * as actions from '../redux/actions';
 
-import {search} from '../utils/search-item';
+import { search } from '../utils/search-item';
 
 import Search from '../components/search/search';
 import InformationIndicator from '../components/information-indicator/information-indicator';
@@ -30,3 +31,12 @@ const mapStateToProps = ({searchData, status, weathers}) => ({
 });
 
 export default connect(mapStateToProps, actions)(SearchContainer);
+
+SearchContainer.propTypes = {
+	searchData: PropTypes.string,
+	changeSearchData: PropTypes.func,
+	weathers: PropTypes.arrayOf(PropTypes.object),
+	submitForm: PropTypes.func,
+	searchHistory: PropTypes.arrayOf(PropTypes.string),
+	loading: PropTypes.bool
+};

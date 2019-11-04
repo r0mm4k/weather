@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './weather-list.css'
 
@@ -46,3 +47,26 @@ const WeatherList = ({weathers, onClose}) => {
 };
 
 export default WeatherList;
+
+WeatherList.propTypes = {
+	weathers: PropTypes.arrayOf(PropTypes.object),
+	onClose: PropTypes.func
+};
+
+WeatherItem.propTypes = {
+	weather: PropTypes.shape({
+		name:PropTypes.string,
+		country: PropTypes.string,
+		temp: PropTypes.string,
+		humidity: PropTypes.number,
+		pressure: PropTypes.number,
+		speed: PropTypes.number,
+		clouds: PropTypes.number,
+		description: PropTypes.string,
+		time: PropTypes.string,
+		img: PropTypes.string,
+		flag: PropTypes.string,
+		map: PropTypes.string
+	}),
+	onClose: PropTypes.func
+};

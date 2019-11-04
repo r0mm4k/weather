@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 import './settings.css'
-import { withRouter } from 'react-router-dom';
 
 const Settings = ({history, markFunc, markNeuron, zoom = 1, addZoom, outZoom, setMarkNeuron, setMarkFunc}) => {
 
@@ -14,6 +15,18 @@ const Settings = ({history, markFunc, markNeuron, zoom = 1, addZoom, outZoom, se
 		localStorage.setItem('func', markFunc);
 		localStorage.setItem('neuron', markNeuron);
 		history.push('/');
+	};
+
+	const isMarkFunc = markFunc && markNeuron === false;
+	const isMarkNeuron = markFunc === false && markNeuron;
+
+	const onSetMarkFunc = () => {
+		setMarkFunc(!markFunc);
+		setMarkNeuron(false);
+	};
+	const onSetMarkNeuron = () => {
+		setMarkFunc(false);
+		setMarkNeuron(!markNeuron);
 	};
 
 	return (
@@ -44,17 +57,18 @@ const Settings = ({history, markFunc, markNeuron, zoom = 1, addZoom, outZoom, se
 					<legend>Word correction techniques:</legend>
 					<div className='form-group'>
 						<div className='custom-control custom-switch'>
-							<input type='checkbox' checked={markFunc} className='custom-control-input' id='customSwitch1'
-							onChange={setMarkFunc}/>
+							<input type='checkbox' checked={isMarkFunc} className='custom-control-input' id='customSwitch1'
+										 onChange={onSetMarkFunc}/>
 							<label className='custom-control-label' htmlFor='customSwitch1'>
 								Superficial comparison with data from query history (LocalStorage).
 							</label>
 						</div>
 						<div className='custom-control custom-switch'>
-							<input type='checkbox' disabled checked={markNeuron} className='custom-control-input' id='customSwitch2'
-							onChange={setMarkNeuron}/>
+							<input type='checkbox' checked={isMarkNeuron} className='custom-control-input' id='customSwitch2'
+										 onChange={onSetMarkNeuron}/>
 							<label className='custom-control-label' htmlFor='customSwitch2'>
 								The neural network will correct mistakes. <sup>(demo)</sup>
+								<p><small>Only: [Minsk, Orsha, Homel, Vitebsk, Paris, Moscow, Pekin, Brest, London, Berlin]</small></p>
 							</label>
 						</div>
 					</div>
@@ -70,3 +84,14 @@ const Settings = ({history, markFunc, markNeuron, zoom = 1, addZoom, outZoom, se
 };
 
 export default withRouter(Settings);
+
+Settings.propTypes = {
+	history: PropTypes.object,
+	addZoom: PropTypes.func,
+	outZoom: PropTypes.func,
+	setMarkNeuron: PropTypes.func,
+	setMarkFunc: PropTypes.func,
+	markFunc: PropTypes.bool,
+	markNeuron: PropTypes.bool,
+	zoom: PropTypes.number
+};

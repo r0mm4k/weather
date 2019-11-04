@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import * as actions from '../redux/actions';
 
@@ -20,3 +21,13 @@ const mapStateToProps = ({settings: {zoom, markFunc, markNeuron}}) => {
 };
 
 export default connect(mapStateToProps, actions)(SettingsContainer);
+
+SettingsContainer.propTypes = {
+	addZoom: PropTypes.func,
+	outZoom: PropTypes.func,
+	setMarkNeuron: PropTypes.func,
+	setMarkFunc: PropTypes.func,
+	markFunc: PropTypes.bool,
+	markNeuron: PropTypes.bool,
+	zoom: PropTypes.number
+};

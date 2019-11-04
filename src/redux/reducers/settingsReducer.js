@@ -21,12 +21,12 @@ const settingsReducer = (state = initialState, action) => {
 		case SET_MARK_FUNC:
 			return {
 				...state,
-				markFunc: !state.markFunc
+				markFunc: action.status
 			};
 		case SET_MARK_NEURON:
 			return {
 				...state,
-				markNeuron: !state.markNeuron
+				markNeuron: action.status
 			};
 		default:
 			return state;
